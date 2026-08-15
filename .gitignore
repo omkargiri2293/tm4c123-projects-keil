@@ -1,0 +1,22 @@
+#Keil build output directories
+Objects/
+Listings/
+
+#Compiles binaries and intermediate files
+*.axf
+*.elf
+*.map
+*.o
+*.d
+
+#Backup and temporary files
+*.bak
+*.tmp
+*.swp
+
+#User specific settings
+*.uvoptx
+*.uvgui.*
+
+#Logs
+*.log
