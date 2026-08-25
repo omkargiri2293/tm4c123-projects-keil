@@ -59,29 +59,64 @@ TypeRW,reset0x0000.0000
 */
 
 
+/*
+//method 2 - using preprocessor's 
+#define RCGCGPIO (*(unsigned int *)0x400FE608)
+#define GPIOFDEN (*(unsigned int *)0x4002551CU)
+#define GPIOFDIR (*(unsigned int *)0x40025400)
+#define GPIOFDATA (*(unsigned int *)0x400253FCU)
+*/
+
+//method 3 - using texas instruments header file 
+
+#include "TM4C123GH6PM.h"
+
+void delay(long d);
+
+void delay(long d){
+while(d--);
+}
+
 int main()
 {
 
-unsigned int *RCGCGPIO;
-RCGCGPIO =(unsigned int *)0x400FE608;
-	*RCGCGPIO=0X20U; // Enable the clock for PORTF
+//unsigned int *RCGCGPIO;
+//RCGCGPIO =(unsigned int *)0x400FE608;
+//*RCGCGPIO=0X20U; // Enable the clock for PORTF
 	
-	unsigned int *GPIOFDEN;
-GPIOFDEN =(unsigned int *)0x4002551CU;
-		*GPIOFDEN=0X0EU; // PF1 PF2 PF3 are digitalised
+	//RCGCGPIO=0X20U;
+	SYSCTL_RCGCGPIO_R=0X20U;
 	
-	unsigned int *GPIOFDIR;
-GPIOFDIR =(unsigned int *)0x40025400;
-	*GPIOFDIR=0x0EU; // PF1 PF2 PF3 as output
+//unsigned int *GPIOFDEN;
+//GPIOFDEN =(unsigned int *)0x4002551CU;
+//*GPIOFDEN=0X0EU; // PF1 PF2 PF3 are digitalised
 	
-	unsigned int *GPIOFDATA;
-GPIOFDATA =(unsigned int *)0x400253FCU;//after mask 0011 1111 1100
-	*GPIOFDATA=0X02U; // RED led on
-	*GPIOFDATA=0X04U; // BLUE led on
-	*GPIOFDATA=0X08U; // GREEN led on
+	//GPIOFDEN=0X0EU;
+GPIO_PORTF_DEN_R=0X0EU;
+	
+//unsigned int *GPIOFDIR;
+//GPIOFDIR =(unsigned int *)0x40025400;
+//*GPIOFDIR=0x0EU; // PF1 PF2 PF3 as output
+	
+	//GPIOFDIR=0x0EU;
+GPIO_PORTF_DIR_R=0x0EU;
+	
+//unsigned int *GPIOFDATA;
+//GPIOFDATA =(unsigned int *)0x400253FCU;//after mask 0011 1111 1100
+	//*GPIOFDATA=0X02U; // RED led on
+	//*GPIOFDATA=0X04U; // BLUE led on
+	//*GPIOFDATA=0X08U; // GREEN led on
 	
 	while(1)
 	{
+		//GPIOFDATA=0X04U;
+		GPIO_PORTF_DATA_R=0x04U;
+		delay(10000000);
+		//GPIOFDATA=0X00U;
+		GPIO_PORTF_DATA_R=0x00U;
+		delay(10000000);
+		
 		
 	}
 }
+
